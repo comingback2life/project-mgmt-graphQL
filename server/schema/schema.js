@@ -1,1 +1,1 @@
-export default schema;
+export const schema = () => {};

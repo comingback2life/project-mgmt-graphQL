@@ -1,7 +1,8 @@
 import 'dotenv/config';
 import express from 'express';
 import { graphqlHTTP } from 'express-graphql';
-import { schema } from './schema/schema';
+import { schema } from './schema/schema.js';
+import { projects, clients } from './sampleData.js';
 const PORT = process.env.PORT || 8000;
 
 const app = express();

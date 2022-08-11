@@ -1,8 +1,22 @@
+import { useMutation } from '@apollo/client';
 import { useState } from 'react';
 import { FaUser } from 'react-icons/fa';
-import { useMutation } from '@apollo/client';
+import { ADD_CLIENT } from '../mutations/clientMutations';
+import { GET_CLIENTS } from '../queries/clientQueries';
 export const AddClientModal = () => {
 	const [form, setForm] = useState({});
+	const [addClient] = useMutation(ADD_CLIENT, {
+		variables: { name: form.name, email: form.email, phone: form.phone },
+		update(cache, { data: { addClient } }) {
+			const { clients } = cache.readQuery({
+				query: GET_CLIENTS,
+			});
+			cache.writeQuery({
+				query: GET_CLIENTS,
+				data: { clients: [...clients, addClient] },
+			});
+		},
+	});
 	const handleOnChange = (e) => {
 		const { name, value } = e.target;
 		setForm({
@@ -12,8 +26,14 @@ export const AddClientModal = () => {
 	};
 
 	const handleOnSubmit = (e) => {
+		const { name, email, phone } = form;
+		console.log(name, email, phone);
 		e.preventDefault();
-		console.log(form);
+		if (name === undefined || email === undefined || phone === undefined) {
+			alert('All the fields must be filled');
+		}
+		addClient(name, email, phone);
+		setForm('');
 	};
 	return (
 		<>

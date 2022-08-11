@@ -1,6 +1,7 @@
 import {
 	GraphQLID,
 	GraphQLList,
+	GraphQLNonNull,
 	GraphQLObjectType,
 	GraphQLSchema,
 	GraphQLString,
@@ -70,6 +71,29 @@ const RootQuery = new GraphQLObjectType({
 	},
 });
 
-const schema = new GraphQLSchema({ query: RootQuery });
+//Mutations - Essential for Modifying Data
+const mutation = new GraphQLObjectType({
+	name: 'Mutation',
+	fields: {
+		addClient: {
+			type: ClientType,
+			args: {
+				name: { type: GraphQLNonNull(GraphQLString) },
+				email: { type: GraphQLNonNull(GraphQLString) },
+				phone: { type: GraphQLNonNull(GraphQLString) },
+			},
+			resolve(parent, args) {
+				const client = new ClientModel({
+					name: args.name,
+					email: args.email,
+					phone: args.phone,
+				});
+				console.log(client);
+				return client.save(); //save the client object  to the schema
+			},
+		},
+	},
+});
+const schema = new GraphQLSchema({ query: RootQuery, mutation });
 
 export default schema;

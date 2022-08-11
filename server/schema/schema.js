@@ -1,4 +1,3 @@
-import { projects, clients } from '.././sampleData.js';
 import {
 	GraphQLID,
 	GraphQLList,
@@ -6,6 +5,10 @@ import {
 	GraphQLSchema,
 	GraphQLString,
 } from 'graphql';
+
+//Mongoose Models
+import ClientModel from '../models/Client.model.js';
+import ProjectModel from '../models/Project.model.js';
 
 //Client Type
 const ClientType = new GraphQLObjectType({
@@ -28,8 +31,8 @@ const ProjectType = new GraphQLObjectType({
 		status: { type: GraphQLString },
 		client: {
 			type: ClientType,
-			resolve(parentValue, args) {
-				return clients.find((client) => client.id === parentValue.id);
+			resolve(parent, args) {
+				return ClientModel.findById(parent.clientId);
 			},
 		}, //relationships between different types
 	}),
@@ -40,28 +43,28 @@ const RootQuery = new GraphQLObjectType({
 	fields: {
 		clients: {
 			type: new GraphQLList(ClientType), //List of Client Types.
-			resolve(parentValue, args) {
-				return clients;
+			resolve(parent, args) {
+				return ClientModel.find(); //mongoose method to return everything
 			},
 		},
 		client: {
 			type: ClientType,
 			args: { id: { type: GraphQLID } },
-			resolve(parentValue, args) {
-				return clients.find((client) => client.id === args.id);
+			resolve(parent, args) {
+				return ClientModel.findById(args.id);
 			},
 		},
 		projects: {
 			type: new GraphQLList(ProjectType), //List of Client Types.
-			resolve(parentValue, args) {
-				return projects;
+			resolve(parent, args) {
+				return ProjectModel.find();
 			},
 		},
 		project: {
 			type: ProjectType,
 			args: { id: { type: GraphQLID } },
-			resolve(parentValue, args) {
-				return projects.find((project) => project.id === args.id);
+			resolve(parent, args) {
+				return ProjectModel.findById(args.id);
 			},
 		},
 	},

@@ -1,19 +1,31 @@
-import { gql, useQuery } from '@apollo/client';
-
+import { useQuery } from '@apollo/client';
+import { ClientRow } from './ClientRow';
 //gql makes the query and to use the Query useQuery hook is used
-const GET_CLIENTS = gql`
-	query getClients {
-		clients {
-			id
-			name
-			email
-			phone
-		}
-	}
-`;
+import { GET_CLIENTS } from '../queries/clientQueries';
+import { Spinner } from './Spinner';
 export const Clients = () => {
 	const { loading, error, data } = useQuery(GET_CLIENTS);
-	if (loading) return <p>Loading...</p>;
+	if (loading) return <Spinner />;
 	if (error) return <p>Something went wrong</p>;
-	return <>{!loading && !error && <h1>Clients</h1>}</>;
+	return (
+		<>
+			{!loading && !error && (
+				<table className="table table-hover mt-3">
+					<thead>
+						<tr>
+							<th>Name</th>
+							<th>Email</th>
+							<th>Phone</th>
+							<th></th>
+						</tr>
+					</thead>
+					<tbody>
+						{data.clients.map((client) => {
+							return <ClientRow key={client.id} client={client}></ClientRow>;
+						})}
+					</tbody>
+				</table>
+			)}
+		</>
+	);
 };

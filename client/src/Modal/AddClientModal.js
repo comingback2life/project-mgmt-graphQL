@@ -2,28 +2,44 @@ import { useState } from 'react';
 import { FaUser } from 'react-icons/fa';
 import { useMutation } from '@apollo/client';
 export const AddClientModal = () => {
+	const [form, setForm] = useState({});
+	const handleOnChange = (e) => {
+		const { name, value } = e.target;
+		setForm({
+			...form,
+			[name]: value,
+		});
+	};
+
+	const handleOnSubmit = (e) => {
+		e.preventDefault();
+		console.log(form);
+	};
 	return (
 		<>
 			<button
 				type="button"
-				className="btn btn-primary"
+				className="btn btn-secondary"
 				data-bs-toggle="modal"
-				data-bs-target="#exampleModal"
+				data-bs-target="#addClientModal"
 			>
-				Add a new Client
+				<div className="d-flex align-items-center">
+					<FaUser className="icon" />
+					Add Client
+				</div>
 			</button>
 
 			<div
 				className="modal fade"
-				id="exampleModal"
+				id="addClientModal"
 				tabIndex="-1"
-				aria-labelledby="exampleModalLabel"
+				aria-labelledby="addClientModalLabel"
 				aria-hidden="true"
 			>
 				<div className="modal-dialog">
 					<div className="modal-content">
 						<div className="modal-header">
-							<h5 className="modal-title" id="exampleModalLabel">
+							<h5 className="modal-title" id="addClientModalLabel">
 								Add New Client
 							</h5>
 							<button
@@ -33,18 +49,46 @@ export const AddClientModal = () => {
 								aria-label="Close"
 							></button>
 						</div>
-						<div className="modal-body">...</div>
-						<div className="modal-footer">
-							<button
-								type="button"
-								className="btn btn-secondary"
-								data-bs-dismiss="modal"
-							>
-								Close
-							</button>
-							<button type="button" className="btn btn-primary">
-								Save changes
-							</button>
+						<div className="modal-body">
+							<form onSubmit={handleOnSubmit}>
+								<div className="mb-3">
+									<label className="form-label">Name</label>
+									<input
+										type="text"
+										className="form-control"
+										name="name"
+										id="name"
+										onChange={handleOnChange}
+									/>
+								</div>
+								<div className="mb-3">
+									<label className="form-label">Email</label>
+									<input
+										type="email"
+										className="form-control"
+										name="email"
+										id="email"
+										onChange={handleOnChange}
+									/>
+								</div>
+								<div className="mb-3">
+									<label className="form-label">Phone</label>
+									<input
+										type="text"
+										className="form-control"
+										name="phone"
+										id="phone"
+										onChange={handleOnChange}
+									/>
+								</div>
+								<button
+									className="btn btn-secondary"
+									type="submit"
+									data-bs-dismiss="modal"
+								>
+									Submit
+								</button>
+							</form>
 						</div>
 					</div>
 				</div>

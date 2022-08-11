@@ -21,13 +21,13 @@ const schema = new GraphQLSchema({
 	query: new GraphQLObjectType({
 		name: 'RootQueryType',
 		fields: {
-			clients: {
+			client: {
 				type: ClientType,
 				args: { id: { type: GraphQLID } },
+				resolve(parentValue, args) {
+					return clients.find((client) => client.id === args.id);
+				},
 			},
-		},
-		resolve(parentValue, args) {
-			return 'hello';
 		},
 	}),
 });

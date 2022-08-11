@@ -2,9 +2,10 @@
 	"name": "project-mgmt-sys",
 	"version": "1.0.0",
 	"description": "Project Management System using GraphQL",
-	"main": "server.js",
+	"main": "index.js",
 	"scripts": {
-		"test": "echo \"Error: no test specified\" && exit 1"
+		"start": "node server/index.js",
+		"dev": "nodemon server/index.js"
 	},
 	"type": "module",
 	"keywords": [

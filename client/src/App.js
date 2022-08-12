@@ -1,6 +1,6 @@
 import { ApolloClient, InMemoryCache, ApolloProvider } from '@apollo/client';
 import { Projects } from './components/Projects';
-import { BrowserRouter, Route, Routes } from 'react-router-dom';
+import { BrowserRouter, Link, Route, Routes } from 'react-router-dom';
 import { Home } from './pages/Home';
 import { Header } from './components/Header';
 import { NotFound } from './pages/NotFound';
@@ -33,7 +33,11 @@ function App() {
 			<ApolloProvider client={client}>
 				<BrowserRouter>
 					<div className="container">
-						<Header />
+						<div className="mt-3">
+							<Link to="/" className="text-decoration-none">
+								<Header />
+							</Link>
+						</div>
 						<Routes>
 							<Route path="/" element={<Home />} />
 							<Route path="/projects/:id" element={<ProjectPage />} />

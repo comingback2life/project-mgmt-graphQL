@@ -3,11 +3,17 @@ import { FaTrash } from 'react-icons/fa';
 import { useMutation } from '@apollo/client';
 import { DELETE_CLIENTS } from '../mutations/clientMutations';
 import { GET_CLIENTS } from '../queries/clientQueries';
+import { GET_PROJECTS } from '../queries/projectQueries';
 export const ClientRow = ({ client }) => {
 	const [deleteClient] = useMutation(DELETE_CLIENTS, {
 		variables: { id: client.id },
-		// refetchQueries: [{ query: GET_CLIENTS }], // helpful but not with a lot of data
-		update(cache, { data: { deleteClient } }) {
+		refetchQueries: [{ query: GET_CLIENTS }, { query: GET_PROJECTS }], // helpful but not with a lot of data
+	});
+
+	//alternatively you can also use update
+
+	/**
+ 		update(cache, { data: { deleteClient } }) {
 			const { clients } = cache.readQuery({ query: GET_CLIENTS });
 			cache.writeQuery({
 				query: GET_CLIENTS,
@@ -16,7 +22,8 @@ export const ClientRow = ({ client }) => {
 				},
 			});
 		},
-	});
+	}
+ */
 
 	return (
 		<tr>

@@ -2,21 +2,9 @@ import { useMutation, useQuery } from '@apollo/client';
 import { useState } from 'react';
 import { FaList } from 'react-icons/fa';
 import { GET_PROJECTS } from '../queries/projectQueries';
+import { GET_CLIENTS } from '../queries/clientQueries';
 export const AddProjectModal = () => {
 	const [form, setForm] = useState({});
-	const [defaultProjectStatus, setDefaultProjectStatus] = useState('new');
-	const [addClient] = useMutation(ADD_CLIENT, {
-		variables: { name: form.name, email: form.email, phone: form.phone },
-		update(cache, { data: { addClient } }) {
-			const { clients } = cache.readQuery({
-				query: GET_CLIENTS,
-			});
-			cache.writeQuery({
-				query: GET_CLIENTS,
-				data: { clients: [...clients, addClient] },
-			});
-		},
-	});
 	const handleOnChange = (e) => {
 		const { name, value } = e.target;
 		setForm({
@@ -26,13 +14,15 @@ export const AddProjectModal = () => {
 	};
 
 	const handleOnSubmit = (e) => {
-		const { name, email, phone } = form;
-		console.log(name, email, phone);
+		const { name, description, status } = form;
 		e.preventDefault();
-		if (name === undefined || email === undefined || phone === undefined) {
-			alert('All the fields must be filled');
+		if (name === undefined || description === undefined) {
+			return alert('All the fields must be filled');
 		}
-		addClient(name, email, phone);
+		if (status === undefined) {
+			form.status = 'new'; //explicilty setting the value to be not started
+		}
+		// addClient(name, email, phone);
 		setForm('');
 	};
 	return (
@@ -96,7 +86,6 @@ export const AddProjectModal = () => {
 										name="status"
 										id="status"
 										className="form-select"
-										value={defaultProjectStatus}
 										onChange={handleOnChange}
 									>
 										<option value="new">Not Started</option>
@@ -105,7 +94,7 @@ export const AddProjectModal = () => {
 									</select>
 								</div>
 								<button
-									className="btn btn-secondary"
+									className="btn btn-primary"
 									type="submit"
 									data-bs-dismiss="modal"
 								>

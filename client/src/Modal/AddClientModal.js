@@ -32,7 +32,7 @@ export const AddClientModal = () => {
 		if (name === undefined || email === undefined || phone === undefined) {
 			alert('All the fields must be filled');
 		}
-		addClient(name, email, phone);
+		return addClient(name, email, phone);
 		setForm('');
 	};
 	return (

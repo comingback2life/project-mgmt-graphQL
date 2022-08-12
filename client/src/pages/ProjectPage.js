@@ -3,6 +3,7 @@ import { GET_SINGLE_PROJECT } from '../queries/projectQueries';
 import { Link, useParams } from 'react-router-dom';
 import { Spinner } from '../components/Spinner';
 import { ClientInfo } from '../components/ClientInfo';
+import { DeleteProjectButton } from '../components/DeleteProjectButton';
 export const ProjectPage = () => {
 	const { id } = useParams();
 	const { loading, data, error } = useQuery(GET_SINGLE_PROJECT, {
@@ -22,6 +23,7 @@ export const ProjectPage = () => {
 					<h6 className="mt-3">Project Status</h6>
 					<p className="lead">{data.project.status}</p>
 					<ClientInfo client={data.project.client} />
+					<DeleteProjectButton projectId={data.project.id} />
 				</div>
 			)}
 		</>

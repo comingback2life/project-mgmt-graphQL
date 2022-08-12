@@ -30,10 +30,6 @@ Start the server
 
 For Backend
 
-```bash
-  cd server
-```
-
 Install dependencies
 
 ```bash

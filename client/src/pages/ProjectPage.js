@@ -2,6 +2,7 @@ import { useQuery } from '@apollo/client';
 import { GET_SINGLE_PROJECT } from '../queries/projectQueries';
 import { Link, useParams } from 'react-router-dom';
 import { Spinner } from '../components/Spinner';
+import { ClientInfo } from '../components/ClientInfo';
 export const ProjectPage = () => {
 	const { id } = useParams();
 	const { loading, data, error } = useQuery(GET_SINGLE_PROJECT, {

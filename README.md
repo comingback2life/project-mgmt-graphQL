@@ -1,5 +1,47 @@
-## README
+# Project Management Application using GraphQL
 
-Project Management App Built for practising GraphQL .
+A small project management application created using Node.js , React, MongoDB and GraphQL
 
-It is a direct adoption (with some functional changes to enhance performance) from Brad Traversy's GraphQL crash course on Youtube.
+## Run Locally
+
+Clone the project
+
+```bash
+  git clone https://github.com/comingback2life/project-mgmt-graphQL
+```
+
+For Frontend
+
+```bash
+  cd client
+```
+
+Install dependencies
+
+```bash
+  npm install
+```
+
+Start the server
+
+```bash
+  npm start
+```
+
+For Backend
+
+```bash
+  cd server
+```
+
+Install dependencies
+
+```bash
+  npm install
+```
+
+Start the server
+
+```bash
+  npm start
+```

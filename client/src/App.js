@@ -4,6 +4,7 @@ import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import { Home } from './pages/Home';
 import { Header } from './components/Header';
 import { NotFound } from './pages/NotFound';
+import { ProjectPage } from './pages/ProjectPage';
 const cache = new InMemoryCache({
 	typePolicies: {
 		Query: {
@@ -35,6 +36,7 @@ function App() {
 						<Header />
 						<Routes>
 							<Route path="/" element={<Home />} />
+							<Route path="/projects/:id" element={<ProjectPage />} />
 							<Route path="*" element={<NotFound />} />
 						</Routes>
 					</div>

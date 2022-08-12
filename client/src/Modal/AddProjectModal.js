@@ -7,11 +7,12 @@ import { GET_CLIENTS } from '../queries/clientQueries';
 import { Spinner } from '../components/Spinner';
 export const AddProjectModal = () => {
 	const [form, setForm] = useState({});
+	const [defaultStatus, setDefaultStatus] = useState('new');
 	const [addProject] = useMutation(ADD_PROJECT, {
 		variables: {
 			name: form.name,
 			description: form.description,
-			status: form.status,
+			status: defaultStatus,
 			clientId: form.clientId,
 		},
 		update(cache, { data: { addProject } }) {
@@ -32,19 +33,15 @@ export const AddProjectModal = () => {
 	};
 
 	const handleOnSubmit = (e) => {
-		const { name, description, status, clientId } = form;
+		const { name, description, clientId } = form;
 		e.preventDefault();
 		if (name === undefined || description === undefined) {
 			return alert('All the fields must be filled');
 		}
-		if (!status) {
-			form.status = 'new';
-		}
 		if (clientId === undefined) {
 			return alert('Please select a client to associate with the project');
 		}
-		console.log(form);
-		addProject(name, description, status, clientId);
+		addProject(name, description, defaultStatus, clientId);
 	};
 	if (loading) return <Spinner />;
 	if (error) return <p>Something went wrong !</p>;
@@ -111,7 +108,7 @@ export const AddProjectModal = () => {
 												name="status"
 												id="status"
 												className="form-select"
-												onChange={handleOnChange}
+												onChange={(e) => setDefaultStatus(e.target.value)}
 												defaultValue="new"
 											>
 												<option value="new">Not Started</option>

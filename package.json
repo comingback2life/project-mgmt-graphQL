@@ -4,7 +4,7 @@
 	"description": "Project Management System using GraphQL",
 	"main": "index.js",
 	"scripts": {
-		"start": "node server/index.js",
+		"start": "cd server && node index.js",
 		"dev": "nodemon server/index.js",
 		"heroku-postbuild": "cd client && npm install && npm run build"
 	},

@@ -2,10 +2,26 @@ import { useMutation, useQuery } from '@apollo/client';
 import { useState } from 'react';
 import { FaList } from 'react-icons/fa';
 import { GET_PROJECTS } from '../queries/projectQueries';
+import { ADD_PROJECT } from '../mutations/projectMutations';
 import { GET_CLIENTS } from '../queries/clientQueries';
 import { Spinner } from '../components/Spinner';
 export const AddProjectModal = () => {
 	const [form, setForm] = useState({});
+	const [addProject] = useMutation(ADD_PROJECT, {
+		variables: {
+			name: form.name,
+			description: form.description,
+			status: form.status,
+			clientId: form.clientId,
+		},
+		update(cache, { data: { addProject } }) {
+			const { projects } = cache.readQuery({ query: GET_PROJECTS });
+			cache.writeQuery({
+				query: GET_PROJECTS,
+				data: { projects: [...projects, addProject] }, //alternatively use concat
+			});
+		},
+	});
 	const { error, loading, data } = useQuery(GET_CLIENTS);
 	const handleOnChange = (e) => {
 		const { name, value } = e.target;
@@ -21,15 +37,14 @@ export const AddProjectModal = () => {
 		if (name === undefined || description === undefined) {
 			return alert('All the fields must be filled');
 		}
-		if (status === undefined) {
-			form.status = 'new'; //explicilty setting the value to be not started
+		if (!status) {
+			form.status = 'new';
 		}
 		if (clientId === undefined) {
 			return alert('Please select a client to associate with the project');
 		}
 		console.log(form);
-		// addClient(name, email, phone);
-		setForm('');
+		addProject(name, description, status, clientId);
 	};
 	if (loading) return <Spinner />;
 	if (error) return <p>Something went wrong !</p>;
@@ -97,6 +112,7 @@ export const AddProjectModal = () => {
 												id="status"
 												className="form-select"
 												onChange={handleOnChange}
+												defaultValue="new"
 											>
 												<option value="new">Not Started</option>
 												<option value="progress">In progress</option>

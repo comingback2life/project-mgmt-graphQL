@@ -1,6 +1,6 @@
 import { gql } from '@apollo/client';
 
-const ADD_PROJECT = gql`
+export const ADD_PROJECT = gql`
 	mutation addProject(
 		$name: String!
 		$description: String!
@@ -11,7 +11,7 @@ const ADD_PROJECT = gql`
 			name: $name
 			description: $description
 			status: $status
-			clienId: $clientID
+			clientId: $clientId
 		) {
 			id
 			name

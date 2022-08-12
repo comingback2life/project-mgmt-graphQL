@@ -1,5 +1,5 @@
 if (process.env.NODE_ENV === 'development') {
-	require('dotenv/config');
+	require('dotenv').config();
 }
 import express from 'express';
 import { graphqlHTTP } from 'express-graphql';

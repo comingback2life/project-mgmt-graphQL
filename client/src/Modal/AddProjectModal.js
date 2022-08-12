@@ -16,7 +16,7 @@ export const AddProjectModal = () => {
 	};
 
 	const handleOnSubmit = (e) => {
-		const { name, description, status } = form;
+		const { name, description, status, clientId } = form;
 		e.preventDefault();
 		if (name === undefined || description === undefined) {
 			return alert('All the fields must be filled');
@@ -24,6 +24,10 @@ export const AddProjectModal = () => {
 		if (status === undefined) {
 			form.status = 'new'; //explicilty setting the value to be not started
 		}
+		if (clientId === undefined) {
+			return alert('Please select a client to associate with the project');
+		}
+		console.log(form);
 		// addClient(name, email, phone);
 		setForm('');
 	};

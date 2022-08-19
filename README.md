@@ -2,6 +2,10 @@
 
 A small project management application created using Node.js , React, MongoDB and GraphQL
 
+## Live Link
+https://projemgmtgql-app.herokuapp.com/
+
+
 ## Run Locally
 
 Clone the project
